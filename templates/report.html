@@ -1,0 +1,218 @@
+{% extends 'base.html' %} 
+{% load myapp_tags %}
+
+{% block login %}
+{% endblock login %}
+{% block body %}
+    <div class="flex bg-gray-300 min-h-screen">
+        <main class="p-6 sm:p-10 space-y-6">
+          <div
+            class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between"
+          >
+            <div class="mr-6">
+              <h1 class="text-4xl font-semibold mb-2">Dashboard</h1>
+              <h2 class="text-gray-600 ml-0.5">Free Resume Analyzer</h2>
+            </div>
+          </div>
+
+          <section class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div class="flex items-center p-8 bg-white shadow rounded-lg">
+              <div
+                class="inline-flex flex-shrink-0 items-center justify-center h-20 w-20 text-purple-700 bg-purple-100 rounded-full mr-6"
+              >               
+              <img
+                  src="/static/profile.png"
+                  alt="user profile photo"
+                  class="h-10 object-cover"
+                  />
+              </div>
+              <div>
+                <span class="text-xl font-bold">Your Name</span>
+                <span class="block text-2xl text-orange-600">{{name|title}}</span>
+              </div>
+            </div>
+            <div class="flex flex-col p-6 bg-white shadow rounded-lg gap-2 divide-y">
+              <div class="mb-3">
+                <span class="text-xl font-bold">Email Address</span>
+                {% if email %}
+                  <span class="block text-gray-500">{{email}}</span>
+                {% else %}
+                  <span class="block text-gray-500">Please! add email address.</span>
+                {% endif %}
+              </div>
+              <div>
+                <span class="text-xl font-bold">Contact number</span>
+                {% if mobile %}
+                  <span class="block text-gray-500">{{mobile}}</span>
+                {% else %}
+                  <span class="block text-gray-500">Please! add contact number.</span>
+                {% endif %}
+              </div>
+            </div>
+           <div class="flex flex-col p-6 bg-white shadow rounded-lg gap-3 divide-y">
+              <div class="mb-3">
+                  <span class="text-xl font-bold">Your experience</span>
+                  <span class="block text-gray-500"> {{ total_experience }} year </span>
+              </div>
+              <div>
+                  {% if total_experience < 1 %}
+                      <span class="inline-block text-xl ">You are looking a </span>
+                      <div class="inline-block text-xl text-green-500 border-5 font-semibold border-sky-500 p-2">Fresher</div>
+
+                  {% elif total_experience >= 1 and total_experience < 3 %}
+                    <span class="inline-block text-xl">You are looking an</span>
+                    <div class="inline-block text-xl text-blue-500 border-5 font-semibold border-sky-500 p-2"> Intermediate</div>
+                  {% else %}
+                      <span class="inline-block text-xl">You are looking a </span>
+                      <div class="inline-block text-xl text-red-500 border-5 font-semibold border-sky-500 p-2"> Senior</div>
+                  {% endif %}
+              </div>
+           </div>
+
+            <div class="flex items-center p-4 bg-white shadow rounded-lg">
+              <div
+                class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6"
+              >
+                 <img
+                  src="/static/resume1.png"
+                  class="h-10"
+                  alt="Resume score"
+                />
+              </div>
+              <div>
+                <span class="block text-2xl font-bold">Resume Score</span>
+                <span class="block text-gray-500">{{resume_score}}/100</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="grid md:grid-cols-2 xl:grid-cols-4  xl:grid-flow-col gap-6" >
+            <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
+              
+              {% comment %} tips {% endcomment %}
+              <div class="px-6 py-5 font-semibold border-b border-gray-400">Tips & Observations</div>
+              <div class="flex flex-col p-8 gap-2 divide-y">
+                {% if tips %}
+                  {% for key,val in tips.items %}
+                  <div class="rounded-sm m-2 flex flex-col bg-gray-50 w-full shadow p-3 gap-4 items-center hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform">
+                      <div class="w-full">
+                        <p class="text-gray-800 text-base font-semibold"> {{key}} </p>
+                      </div>
+                      <div class="w-full">
+                        <p class="text-base text-gray-800 font-light"> {{val}} </p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                <div>
+                  <span class="text-gray-500">No tips required!!</span>
+                </div>
+                {% endif %}              
+             </div>
+            </div>
+
+            
+            <div class="flex flex-col md:col-span-2 md:row-span-1 bg-white shadow rounded-lg">
+              {% comment %} analysis {% endcomment %}
+              <div class="px-6 py-5 font-semibold border-b border-gray-400">Analysis</div>
+                <div class="rounded-sm m-2 bg-gray-50 shadow p-3 gap-4 items-center hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform">
+                  {% if resume_score == 20 %} 
+                    <p class="text-red-800 text-base font-semibold">We analysed your resume and found that your resume score is <strong>20</strong> out of 100, which is very low. You should follow the mentioned tips and see the resume tips video to enhance your resume.</p>
+                  {% else %}
+                    <p class="text-green-800 text-base font-semibold">We analysed your resume and found that your resume score is <strong>{{resume_score}}</strong> out of 100, which is OK!. Make sure your resume has all the mentioned tips. You can go through the recommended course to enhance you skills more</p>
+                  {% endif %}
+                </div>
+            </div>
+            
+            
+            <div class="row-span-3 bg-white shadow rounded-lg">
+
+              <div class="flex flex-col justify-between px-6 py-5 font-semibold border-b border-gray-100">
+                <span>Skills</span> 
+              </div> 
+
+              <div class="overflow-y-auto" style="max-height: 24rem">
+                <ul class="flex flex-row justify-between">
+                  {% if skills %}                                   
+                  <li class="flex flex-row justify-between">                  
+                      <div class="flex">
+                        <div class="px-6">
+                          {% for skill in skills %} 
+                            <button type="button" class="inline-block px-6 py-2 mr-2 mb-2 border-2 border-green-600 text-green-600 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">{{skill}}</button>
+                          {% endfor %}
+                        </div>
+                      </div>
+                  </li>
+                 {% else %}
+                 <li>
+                  <div>  <span class="text-gray-600">No skills in your resume</span></div>
+                 </li>
+                 {% endif %}
+                </ul>
+              </div>
+
+              <div class="flex flex-col justify-between px-6 py-5 font-semibold border-b border-gray-100">
+                <span>Recommended Skills</span> 
+                <div class="bg-green-100 border-t border-b text-green-600 px-4 py-3 " role="alert">
+                  <p class="font-bold italic font-mono">{{recommend_skill_list.0}}</p></div>
+              </div> 
+              <div class="overflow-y-auto" style="max-height: 24rem">
+                <ul class="flex flex-row justify-between">
+                  {% if recommend_skill_list %}                  
+                  <li class="flex flex-row justify-between">                  
+                      <div class="flex">
+                        <div class="px-6">
+                          {% for skill in recommend_skill_list.1 %}
+                            <button type="button" class="inline-block px-6 py-2 mr-2 mb-2 border-2 border-pink-600 text-pink-600 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">{{skill}}</button>
+                          {% endfor %}
+                        </div>
+                      </div>
+                  </li>
+                 {% else %}
+                 <li>
+                  <div>  <span class="text-gray-600">No recommended skills</span></div>
+                 </li>
+                 {% endif %}
+                </ul>
+              </div>
+              
+            </div>
+
+            <div class="flex flex-col row-span-3 bg-white shadow rounded-lg">
+              <div class="px-6 py-5 font-semibold border-b border-gray-100">
+                Courses & Certificates Recommendations
+              </div>
+              <div class="p-4 flex-grow">
+                <div class="flex flex-col items-center justify-center text-violet-500 text-xl font-semibold">
+                  {% for c_link, c_name in course_rec.items %}
+                    <div class="rounded-sm m-2 flex flex-col bg-white w-full shadow p-3 gap-2 items-center hover:shadow-lg transition delay-150 duration-300 ease-in-out hover:scale-105 transform">
+                      <div class="w-full">
+                        <p class="text-gray-800 text-base font-semibold"> {{c_name}} </p>
+                      </div>
+                      <div class="w-full pr-5">
+                        <a class="text-sm text-blue-600 font-light" href="{{c_link}}" target="_blank"> {{c_link}} </a>
+                      </div>
+                    </div>
+                  {% endfor %}
+                <div class="flex flex-col p-2 h-100 bg-white">
+              
+              <div class="px-6 py-5 font-semibold border-b border-gray-100">
+              Resume tips Video</div>
+                <div class="w-25 h-25">
+                  <iframe class="object-cover" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+                    </div>
+                </div>
+
+                
+            
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <!-- partial -->
+  </div>
+{% endblock body %}

@@ -1,0 +1,50 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.12/tailwind-experimental.min.css"
+    />
+    <title>{% block title %} {% endblock title %}</title>
+    {% tailwind_css %}
+  </head>
+
+  <body class="p-30">
+    <nav
+      class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600 relative"
+    >
+      <div
+        class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+      >
+        <a href="/" class="flex items-center">
+          <img
+            src="/static/resume1.png"
+            class="h-8 mr-3"
+            alt="Resume Analyzer Logo"
+          />
+          <span
+            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            >Resume Analyser</span
+          >
+        </a>
+        <div class="flex md:order-2">
+          {% block profile %} {% endblock profile %} {% block login %}
+          <a
+            type="button"
+            class="text-white bg-blue-700 hover:bg-blue-800 text-lg focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            href={% url 'signin' %}
+            >
+            Recruiter Login
+          </a>
+          {% endblock login %}
+        </div>
+      </div>
+    </nav>
+
+    {% block body %} {% endblock body %}
+  </body>
+</html>
